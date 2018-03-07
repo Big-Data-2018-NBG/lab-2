@@ -38,6 +38,7 @@ void *swap(void* threadVariables){
     int** matrix = data->matrix;
     int temp;
     for (int j = 0; j < i ; ++j) {
+        printf("Working\n");
         temp = matrix[i][j];
         matrix[i][j] = matrix[j][i];
         matrix[j][i] = temp;
@@ -66,6 +67,8 @@ int main(int argc, char *argv[]) {
     int rc;
     printf("Original Matrix \n");
     displayMatrix(matrix, numberOfColumns, numberOfRows);
+
+
     for (int i = 0; i < numberOfRows; ++i){
         // transpose(matrix, numberOfRows, i);
         thread->i = i;

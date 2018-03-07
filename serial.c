@@ -13,7 +13,7 @@ int main() {
 
     srand(time(NULL));
 
-    int arraySize = 8192;
+    int arraySize = 10;
 
     int *mainArray[arraySize];
 
@@ -28,13 +28,12 @@ int main() {
             mainArray[i][j] = rand() % 15;
         }
     }
-/*
  for (int i = 0; i < arraySize; ++i) {
         for (int j = 0; j < arraySize; ++j) {
             printf("%d,\t", mainArray[i][j]);
         }
         printf("\n");
-    }*/
+    }
 
 
 
@@ -60,14 +59,14 @@ int main() {
 
 
 
-/*    printf("\n\n");
+    printf("\n\n");
 
     for (i = 0; i < arraySize; ++i) {
         for (j = 0; j < arraySize; ++j) {
             printf("%d,\t", mainArray[i][j]);
         }
         printf("\n");
-    }*/
+    }
 
 
 
