@@ -21,14 +21,6 @@ struct thread_data {
 };
 
 
-void *printHello(void *threadID) {
-    long id;
-    id = (long) threadID;
-    printf("Hello world :%ld\n", id);
-    pthread_exit(NULL);
-}
-
-
 void *swap(void *threadVariables) {
 
     struct thread_data *data;
@@ -37,10 +29,8 @@ void *swap(void *threadVariables) {
     int numberOfColumns = data->numberOfColumns;
     int **matrix = data->matrix;
     int temp;
-
     int k = data->arrStart;
     int j = data->arrEnd;
-    //printf("\n%dThread",i);
     for (int l = k; l < j; ++l) {
         for (int m = l + 1; m < numberOfColumns; ++m) {
             temp = matrix[l][m];
@@ -49,7 +39,6 @@ void *swap(void *threadVariables) {
         }
     }
 
-    printf("\nCompleted thread: %d", i);
     pthread_exit(NULL);
 }
 
@@ -58,10 +47,16 @@ int main() {
     struct thread_data *m;
 
     srand(time(NULL));
+    int matrixSize;
+    int numberOfThreads;
 
-    int matrixSize = 8192;
+    printf("Please enter the dimensions of the square matrix: \n");
+    scanf("%d", &matrixSize);
+    printf("\nPlease enter the no. of threads required: \n");
+    scanf("%d", &numberOfThreads);
+
+
     double mSize = matrixSize;
-    int numberOfThreads = 16;
 
 
     int **matrix = (int **) malloc(sizeof(int *) * matrixSize);
@@ -77,11 +72,11 @@ int main() {
     int x;
 
 
-   /* Uncomment for loop to see the sections the array is broken down to
-    * for (int i = 0; i < numberOfThreads; i++) {
-        x = ((mSize / numberOfThreads) * (i + 1));
-        printf("%d\n", x);
-    }*/
+    // Uncomment for loop to see the sections the array is broken down to
+    /*  for (int i = 0; i < numberOfThreads; i++) {
+         x = ((mSize / numberOfThreads) * (i + 1));
+         printf("%d\n", x);
+     }*/
 
     double startTime = omp_get_wtime();
     pthread_t threads[numberOfThreads];
@@ -100,9 +95,9 @@ int main() {
 
     }
 
-    /*Uncommet section to see transposed matrix
-     * printf("\nTransposed Matrix is: \n");
-       displayMatrix(matrix, matrixSize, matrixSize);*/
+    //  Uncommet section to see transposed matrix
+    /* printf("\nTransposed Matrix is: \n");
+      displayMatrix(matrix, matrixSize, matrixSize);*/
 
 
     for (int j = 0; j < numberOfThreads; ++j) {
