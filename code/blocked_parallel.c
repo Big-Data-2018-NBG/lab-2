@@ -32,10 +32,9 @@ int main() {
 
     for (int i = 0; i < matrixSize; ++i) {
         for (int j = 0; j < matrixSize; ++j) {
-            mainArray[i][j] = rand() % 15;
+            mainArray[i][j] = (i*matrixSize) + j;
         }
     }
-
 
     /*
     for (int i = 0; i < matrixSize; ++i) {
@@ -43,8 +42,7 @@ int main() {
              printf("%d,\t", mainArray[i][j]);
          }
          printf("\n");
-     }
-    */
+     }*/
 
 
     int chunkSize = 4;
@@ -89,7 +87,6 @@ int main() {
     }
 
     double finalTime = omp_get_wtime() - startTime;
-
     /*
     printf("\n\n");
 
@@ -98,8 +95,7 @@ int main() {
             printf("%d,\t", mainArray[i][j]);
         }
         printf("\n");
-    }
-    */
+    }*/
 
     printf("\n%lf\n", finalTime);
 

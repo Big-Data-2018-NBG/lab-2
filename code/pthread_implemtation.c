@@ -73,10 +73,12 @@ int main() {
 
 
     // Uncomment for loop to see the sections the array is broken down to
-    /*  for (int i = 0; i < numberOfThreads; i++) {
+    /*
+      for (int i = 0; i < numberOfThreads; i++) {
          x = ((mSize / numberOfThreads) * (i + 1));
          printf("%d\n", x);
-     }*/
+     }
+    */
 
     double startTime = omp_get_wtime();
     pthread_t threads[numberOfThreads];
@@ -96,13 +98,16 @@ int main() {
     }
 
     //  Uncommet section to see transposed matrix
-    /* printf("\nTransposed Matrix is: \n");
-      displayMatrix(matrix, matrixSize, matrixSize);*/
+    
+    /*printf("\nTransposed Matrix is: \n");
+    displayMatrix(matrix, matrixSize, matrixSize);*/
+    
 
 
     for (int j = 0; j < numberOfThreads; ++j) {
         (void) pthread_join(threads[j], NULL);
     }
+
 
     double endTime = omp_get_wtime();
     double finaltime = endTime - startTime;
@@ -116,11 +121,9 @@ int main() {
 
 
 void initMatrix(int **matrix, int numberOfRows, int numberOfColumns) {
-    int element = 0;
     for (int i = 0; i < numberOfRows; i++) {
         for (int j = 0; j < numberOfColumns; ++j) {
-            matrix[i][j] = element;
-            element++;
+            matrix[i][j] = (i*numberOfRows) + j;
         }
     }
 }

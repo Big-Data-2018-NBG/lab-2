@@ -1,7 +1,3 @@
-//
-// Created by sailen on 2018/02/24.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -13,10 +9,13 @@ int main() {
 
     srand(time(NULL));
 
-    int matrixSize;
+    int matrixSize ;
+    int numberOfThreads;
 
     printf("Please enter the dimensions of the square matrix: \n");
     scanf("%d", &matrixSize);
+    printf("\nPlease enter the no. of threads required: \n");
+    scanf("%d", &numberOfThreads);
 
 
     int *mainArray[matrixSize];
@@ -29,31 +28,28 @@ int main() {
 
     for (int i = 0; i < matrixSize; ++i) {
         for (int j = 0; j < matrixSize; ++j) {
-            mainArray[i][j] = rand() % 15;
+            mainArray[i][j] = (i*matrixSize) + j;
         }
     }
-    
-    //Uncomment to print original matrix
+    //To print the orginal array
     /*
     for (int i = 0; i < matrixSize; ++i) {
-            for (int j = 0; j < matrixSize; ++j) {
-                printf("%d,\t", mainArray[i][j]);
-            }
-            printf("\n");
+        for (int j = 0; j < matrixSize; ++j) {
+            printf("%d,\t", mainArray[i][j]);
+        }
+        printf("\n");
     }*/
 
-
-
-
-
-
-
     int temp = 0;
+    omp_set_num_threads(numberOfThreads);
     double startTime = omp_get_wtime();
 
 
     int i, j;
 
+#pragma omp parallel shared(matrixSize, mainArray) private(temp, i, j)
+    {
+#pragma omp for schedule(dynamic, 2) nowait
         for (i = 0; i < matrixSize - 1; i++) {
             for (j = i + 1; j < matrixSize; j++) {
                 temp = mainArray[i][j];
@@ -61,13 +57,14 @@ int main() {
                 mainArray[j][i] = temp;
             }
         }
+    }
 
     double finalTime = omp_get_wtime() - startTime;
 
 
-    //Uncomment to print transposed matrix
-    /*printf("\n\n");
-
+    //To print the transposed array
+    /*
+    printf("\n\n");
     for (i = 0; i < matrixSize; ++i) {
         for (j = 0; j < matrixSize; ++j) {
             printf("%d,\t", mainArray[i][j]);
@@ -80,13 +77,13 @@ int main() {
 
 
 
-    printf("\n%lf\n", finalTime);
+    printf("\nThe time taken to transpose the matrix is: %lf\n ", finalTime);
 
     for (int l = 0; l < matrixSize; ++l) {
         free(mainArray[l]);
     }
 
 
-}
 
+}
 
